@@ -47,11 +47,11 @@ export default function LoginPage({
               password: data.password,
           })
 
-          if (!signInResults?.error){
+          if (signInResults?.ok){
                 // Redirect to the home page after successful sign in
                 router.push("/");
             } else {
-                setError(signInResults.error === "CredentialsSignin" ? "Invalid email or password. Please try again." : "Somethingwent wrong with logging In");
+                setError(signInResults?.error === "CredentialsSignin" ? "Invalid email or password. Please try again." : "Somethingwent wrong with logging In");
             }
 
         } catch (error) {
