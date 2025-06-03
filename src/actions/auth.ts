@@ -33,9 +33,9 @@ async function registerUser(data: SignUpSchema) {
                 name, 
                 email,
                 password: hashedPassword,
-                apiQuota: {
+                ApiQuota: {
                     create: {
-                        secretkey: `sa_live_${crypto.randomBytes(24).toString('hex')}`,
+                        secretKey: `sa_live_${crypto.randomBytes(24).toString('hex')}`,
                     }
                 }
             }
