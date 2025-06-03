@@ -1,6 +1,7 @@
 'use server';
-
+import crypto from 'crypto';
 import { hash } from 'bcrypt';
+import { create } from 'domain';
 import { signUpSchema, type SignUpSchema } from '~/schema/auth'
 import { db } from '~/server/db';
 
@@ -32,6 +33,11 @@ async function registerUser(data: SignUpSchema) {
                 name, 
                 email,
                 password: hashedPassword,
+                apiQuota: {
+                    create: {
+                        secretkey: `sa_live_${crypto.randomBytes(24).toString('hex')}`,
+                    }
+                }
             }
         })
 
