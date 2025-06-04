@@ -5,6 +5,7 @@ import { SignOutButton } from "@/components/client/signout";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import CopyButton from "~/components/client/copy-button";
+import CodeExamples from "~/components/client/code-examples";
 
 
 export default async function HomePage() {
@@ -51,11 +52,13 @@ export default async function HomePage() {
                 <span className="text-xs font-medium text-gray-600">{quota.requestsUsed} / {quota.maxRequests} Requests</span>
               </div>
               <div className="mt-1 h-1 w-full rounded-full bg-gray-200">
-                <div style={{ width: (500 / quota.maxRequests) * 100 + '%' }} className="h-full rounded-full bg-gray-800 transition-all duration-300 ease-in-out">
+                <div style={{ width: (quota.requestsUsed / quota.maxRequests) * 100 + '%' }} className="h-full rounded-full bg-gray-800 transition-all duration-300 ease-in-out">
 
                 </div>
               </div>
             </div>
+
+            <CodeExamples />
 
           </div>
           
