@@ -45,6 +45,18 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
+            <div className="mt-2 flex h-fit w-full flex-col rounded-xl bg-gray-100 bg-opacity-80 p-6">
+              <div className="flex flex-row gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <span className="text-sm font-medium">Monthly Quota : </span>
+                <span className="text-xs font-medium text-gray-600">{quota.requestsUsed} / {quota.maxRequests} Requests</span>
+              </div>
+              <div className="mt-1 h-1 w-full rounded-full bg-gray-200">
+                <div style={{ width: (500 / quota.maxRequests) * 100 + '%' }} className="h-full rounded-full bg-gray-800 transition-all duration-300 ease-in-out">
+
+                </div>
+              </div>
+            </div>
+
           </div>
           
         </main>
