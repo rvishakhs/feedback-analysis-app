@@ -94,3 +94,5 @@ model Videofile {
     analyzed    Boolean     @default(false)
     createdAt   DateTime    @default(now())
 }
+
+
