@@ -8,14 +8,75 @@ import React from 'react';
 
 interface UploadVideoProps {
     apiKey?: string;
+    onAnalysisComplete?: (analysis: any) => void;
 }
 
-function UploadVideo({apiKey} : UploadVideoProps) {
+function UploadVideo({apiKey, onAnalysisComplete} : UploadVideoProps) {
     // useStates to manage the state of the component
     const [status, setStatus] = useState<"upload a video" | "uploading" | "analyzing">("upload a video");
     const [error, setError] = useState<string | null>(null);
 
-    const handleFileUpload = async (file: File) => {}
+    const handleFileUpload = async (file: File) => {
+        try {
+            setStatus("uploading");
+            setError(null);
+
+            // Get the file type 
+            const fileType = `.${file.name.split('.').pop()}`; 
+            // 1. Get upload URL
+            const res = await fetch('/api/uploadurl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer' + apiKey,
+                    },
+                    body: JSON.stringify({ fileType: fileType})
+                }).then(res => res.json());
+
+            if(!res.ok) {
+                const error = await res.json();
+                throw new Error(error?.message || "Failed to get upload URL");
+
+            }
+
+            const { url, key } = res.json();
+
+        // 2. Upload file
+            const uploadres = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'content-type' : 'video/mp4',                
+                },
+                body: file.type
+            })
+
+            if (!uploadres.ok) {
+                const error = await uploadres.json();
+                throw new Error(error?.message || "Failed to upload file");
+            }
+
+            setStatus("analyzing");
+        // 3. Analyze video
+            const analysisres = await fetch('/api/feedback-inference', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + apiKey,
+                },
+                body: JSON.stringify({ key })
+            }).then(res => res.json());
+
+            if (!analysisres.ok) {
+                throw new Error("Failed to analyze video");
+            }
+            
+            const analysis = await analysisres.json();
+            onAnalysisComplete?.(analysis);
+        } catch (err) {
+            console.error("Error uploading or analyzing video:", err);
+            setError(err instanceof Error ? err.message : "An unexpected error occurred while uploading ");
+        }
+    }
 
   return (
     <div className="flex w-full flex-col gap-2">
