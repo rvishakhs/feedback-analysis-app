@@ -31,7 +31,7 @@ export default async function HomePage() {
         </nav>
         <main className="flex min-h-screen w-full flex-col gap-6 pt-10 sm:p-10 md:flex-row">
           <Inference quota={{secretkey : quota.secretKey}}/> 
-          <div className="flex h-fit w-full flex-col gap-3 md:w-1/2"></div>
+          
           <div className="hidden border-l border-slate-200 md:block"></div>
           <div className="flex h-fit w-full flex-col gap-3 md:w-1/2">
             <h2 className="text-2xl font-semibold text-gray-800">
