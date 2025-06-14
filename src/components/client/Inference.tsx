@@ -131,7 +131,7 @@ export function Inference({quota} : InfererenceProps) {
                                 {utterence.emotions.map((emo, emoIdx) => {
                                     return (
                                         <div key={emo.label} className="flex items-center gap-2">
-                                            <span className="w-16 text-xs text-gray-500">
+                                            <span className="w-16 whitespace-nowrap text-xs text-gray-500">
                                                 {EMOTIONS_EMOJI_MAP[emo.label]} {emo.label}
                                             </span>
                                             <div className="flex-1">
@@ -154,8 +154,8 @@ export function Inference({quota} : InfererenceProps) {
                                 {utterence.sentiments.map((sentiments, Id) => {
                                     return (
                                         <div key={sentiments.label} className="flex items-center gap-2">
-                                            <span className="w-16 text-xs text-gray-500">
-                                                {EMOTIONS_EMOJI_MAP[sentiments.label]} {sentiments.label}
+                                            <span className="w-16 text-xs whitespace-nowrap text-gray-500">
+                                                {SENTIMENTS_EMOJI_MAP[sentiments.label]} {sentiments.label}
                                             </span>
                                             <div className="flex-1">
                                                 <div className="h-1 w-full rounded-full bg-gray-100">

@@ -31,7 +31,7 @@ function UploadVideo({apiKey, onAnalysisComplete} : UploadVideoProps) {
                     'Authorization': 'Bearer' + apiKey,
                     },
                     body: JSON.stringify({ fileType: fileType})
-                }).then(res => res.json());
+                });
 
             if(!res.ok) {
                 const error = await res.json();
@@ -39,15 +39,15 @@ function UploadVideo({apiKey, onAnalysisComplete} : UploadVideoProps) {
 
             }
 
-            const { url, key } = res.json();
+            const { url, fileId, key } = await res.json();
 
         // 2. Upload file
             const uploadres = await fetch(url, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
-                    'content-type' : 'video/mp4',                
+                    'content-type' : file.type,                
                 },
-                body: file.type
+                body: file
             })
 
             if (!uploadres.ok) {
@@ -64,7 +64,7 @@ function UploadVideo({apiKey, onAnalysisComplete} : UploadVideoProps) {
                     'Authorization': 'Bearer ' + apiKey,
                 },
                 body: JSON.stringify({ key })
-            }).then(res => res.json());
+            });
 
             if (!analysisres.ok) {
                 throw new Error("Failed to analyze video");
